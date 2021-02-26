@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar() {
+export default function SearchAppBar({addData}) {
   const classes = useStyles();
 
   return (
@@ -86,7 +86,7 @@ export default function SearchAppBar() {
                 inputProps={{ 'aria-label': 'search' }}
                 />
             </div>
-            <Modal />
+            <Modal addData={addData}/>
             {/*<MenuAction />*/}
         </Toolbar>
       </AppBar>

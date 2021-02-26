@@ -13,7 +13,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide() {
+export default function AlertDialogSlide({addData}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -40,7 +40,7 @@ export default function AlertDialogSlide() {
           <DialogContentText id="alert-dialog-slide-description">
             In this section you can add the patient's data, to give you the best care.
           </DialogContentText>
-            <Form handleClose={handleClose} />
+            <Form handleClose={handleClose} addData={addData} />
         </DialogContent>
         <DialogActions>
         </DialogActions>

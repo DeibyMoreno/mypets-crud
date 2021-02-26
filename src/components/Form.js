@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Picker from "./Picker";
 import Button from '@material-ui/core/Button';
+import shortid from 'shortid';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -19,45 +20,101 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function BasicTextFields({ handleClose }) {
+export default function BasicTextFields({ handleClose, addData }) {
     const classes = useStyles();
     const [data, setData] = useState({
+        id : {
+            val : 0
+        },
         namePet: {
-            val: '',
+            val: 'Felix',
             error: false,
             msg: ''
         },
         breedPet: {
-            val: '',
+            val: 'Angora',
+            error: false,
+            msg: ''
+        },
+        birthdayPet:{
+            val: new Date(),
             error: false,
             msg: ''
         },
         type: {
-            val: '',
+            val: 'Cat',
             error: false,
             msg: ''
         },
         ownerName: {
-            val: '',
+            val: 'Deiby',
             error: false,
             msg: ''
         },
         phone: {
-            val: '',
+            val: '123',
             error: false,
             msg: ''
         },
         address: {
-            val: '',
+            val: 'cll 50 a ',
             error: false,
             msg: ''
         },
         email: {
-            val: '',
+            val: 'deiby@gmail.com',
             error: false,
             msg: ''
         }
     });
+
+    const clearForm = ()=>{
+        setData({
+            id : {
+                val : 0
+            },
+            namePet: {
+                val: 'Felix',
+                error: false,
+                msg: ''
+            },
+            breedPet: {
+                val: 'Angora',
+                error: false,
+                msg: ''
+            },
+            birthdayPet:{
+                val: new Date(),
+                error: false,
+                msg: ''
+            },
+            type: {
+                val: 'Cat',
+                error: false,
+                msg: ''
+            },
+            ownerName: {
+                val: 'Deiby',
+                error: false,
+                msg: ''
+            },
+            phone: {
+                val: '123',
+                error: false,
+                msg: ''
+            },
+            address: {
+                val: 'cll 50 a ',
+                error: false,
+                msg: ''
+            },
+            email: {
+                val: 'deiby@gmail.com',
+                error: false,
+                msg: ''
+            }
+        });
+    }
 
     const handleChange = (event) => {
         setData({
@@ -69,6 +126,16 @@ export default function BasicTextFields({ handleClose }) {
             }
         })
     };
+    
+    const handleChangeDate = (date) =>{
+        setData({
+            ...data,
+            birthdayPet : {
+                ...data.birthdayPet,
+                val : date
+            }
+        })
+    }
 
     const validateEmail = (mail)=>{
         if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)){
@@ -174,6 +241,10 @@ export default function BasicTextFields({ handleClose }) {
     const add = (e) => {
         e.preventDefault();
         if (!validarForm()) {
+            data.id.val = shortid.generate();
+            data.birthdayPet.val = data.birthdayPet.val.toLocaleDateString();
+            addData(data);
+            clearForm();
             handleClose();
         }
     }
@@ -210,7 +281,7 @@ export default function BasicTextFields({ handleClose }) {
                 value={data.type.val}
                 onChange={handleChange}
             />
-            <Picker />
+            <Picker date={data.birthdayPet.val} onChange={handleChangeDate}/>
             <TextField
                 style={{ width: '100%' }}
                 error={data.ownerName.error}

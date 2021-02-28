@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Picker from "./Picker";
@@ -20,96 +20,183 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function BasicTextFields({ handleClose, addData }) {
+export default function BasicTextFields({ handleClose, addData, dataEdit, updateData }) {
     const classes = useStyles();
+    const isEdit = Object.entries(dataEdit).length;  
     const [data, setData] = useState({
-        id : {
-            val : 0
-        },
         namePet: {
-            val: 'Felix',
+            val: '',
             error: false,
             msg: ''
         },
         breedPet: {
-            val: 'Angora',
+            val: '',
             error: false,
             msg: ''
         },
-        birthdayPet:{
+        birthdayPet: {
             val: new Date(),
             error: false,
             msg: ''
         },
         type: {
-            val: 'Cat',
+            val: '',
             error: false,
             msg: ''
         },
         ownerName: {
-            val: 'Deiby',
+            val: '',
             error: false,
             msg: ''
         },
         phone: {
-            val: '123',
+            val: '',
             error: false,
             msg: ''
         },
         address: {
-            val: 'cll 50 a ',
+            val: '',
             error: false,
             msg: ''
         },
         email: {
-            val: 'deiby@gmail.com',
+            val: '',
             error: false,
             msg: ''
         }
     });
-
-    const clearForm = ()=>{
+    useEffect(() => {
+        (() => {
+            const isEdit = Object.entries(dataEdit).length;
+            if(isEdit !== 0){
+                setData({
+                    id : dataEdit.id,
+                    namePet: {
+                        val: dataEdit.namePet.val,
+                        error: false,
+                        msg: ''
+                    },
+                    breedPet: {
+                        val: dataEdit.breedPet.val,
+                        error: false,
+                        msg: ''
+                    },
+                    birthdayPet: {
+                        val: new Date(dataEdit.birthdayPet.val),
+                        error: false,
+                        msg: ''
+                    },
+                    type: {
+                        val: dataEdit.type.val,
+                        error: false,
+                        msg: ''
+                    },
+                    ownerName: {
+                        val: dataEdit.ownerName.val,
+                        error: false,
+                        msg: ''
+                    },
+                    phone: {
+                        val: dataEdit.phone.val,
+                        error: false,
+                        msg: ''
+                    },
+                    address: {
+                        val: dataEdit.address.val,
+                        error: false,
+                        msg: ''
+                    },
+                    email: {
+                        val: dataEdit.email.val,
+                        error: false,
+                        msg: ''
+                    }
+                })
+            }else{
+                setData({
+                    namePet: {
+                        val: '',
+                        error: false,
+                        msg: ''
+                    },
+                    breedPet: {
+                        val: '',
+                        error: false,
+                        msg: ''
+                    },
+                    birthdayPet: {
+                        val: new Date(),
+                        error: false,
+                        msg: ''
+                    },
+                    type: {
+                        val: '',
+                        error: false,
+                        msg: ''
+                    },
+                    ownerName: {
+                        val: '',
+                        error: false,
+                        msg: ''
+                    },
+                    phone: {
+                        val: '',
+                        error: false,
+                        msg: ''
+                    },
+                    address: {
+                        val: '',
+                        error: false,
+                        msg: ''
+                    },
+                    email: {
+                        val: '',
+                        error: false,
+                        msg: ''
+                    }
+                });
+            }
+        })()
+    },[dataEdit]);
+    const clearForm = () => {
         setData({
-            id : {
-                val : 0
-            },
             namePet: {
-                val: 'Felix',
+                val: '',
                 error: false,
                 msg: ''
             },
             breedPet: {
-                val: 'Angora',
+                val: '',
                 error: false,
                 msg: ''
             },
-            birthdayPet:{
+            birthdayPet: {
                 val: new Date(),
                 error: false,
                 msg: ''
             },
             type: {
-                val: 'Cat',
+                val: '',
                 error: false,
                 msg: ''
             },
             ownerName: {
-                val: 'Deiby',
+                val: '',
                 error: false,
                 msg: ''
             },
             phone: {
-                val: '123',
+                val: '',
                 error: false,
                 msg: ''
             },
             address: {
-                val: 'cll 50 a ',
+                val: '',
                 error: false,
                 msg: ''
             },
             email: {
-                val: 'deiby@gmail.com',
+                val: '',
                 error: false,
                 msg: ''
             }
@@ -126,19 +213,19 @@ export default function BasicTextFields({ handleClose, addData }) {
             }
         })
     };
-    
-    const handleChangeDate = (date) =>{
+
+    const handleChangeDate = (date) => {
         setData({
             ...data,
-            birthdayPet : {
+            birthdayPet: {
                 ...data.birthdayPet,
-                val : date
+                val: date
             }
         })
     }
 
-    const validateEmail = (mail)=>{
-        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)){
+    const validateEmail = (mail) => {
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)) {
             return false
         }
         return true
@@ -223,7 +310,7 @@ export default function BasicTextFields({ handleClose, addData }) {
                 }
             }
             result = true;
-        }else if(validateEmail(data.email.val)){
+        } else if (validateEmail(data.email.val)) {
             dataCopy = {
                 ...dataCopy,
                 email: {
@@ -241,16 +328,25 @@ export default function BasicTextFields({ handleClose, addData }) {
     const add = (e) => {
         e.preventDefault();
         if (!validarForm()) {
-            data.id.val = shortid.generate();
-            data.birthdayPet.val = data.birthdayPet.val.toLocaleDateString();
+            data.birthdayPet.val = data.birthdayPet.val.toISOString().split('T')[0];
             addData(data);
             clearForm();
             handleClose();
         }
     }
 
+    const update = (e)=>{
+        e.preventDefault();
+        if(!validarForm()){
+            data.birthdayPet.val = data.birthdayPet.val.toISOString().split('T')[0];
+            updateData(data);
+            clearForm();
+            handleClose();
+        }
+    }
+
     return (
-        <form className={classes.root} onSubmit={add} noValidate autoComplete="off">
+        <form className={classes.root} onSubmit={isEdit === 0 ? add : update} noValidate autoComplete="off">
             <TextField
                 style={{ width: '100%' }}
                 error={data.namePet.error}
@@ -281,7 +377,7 @@ export default function BasicTextFields({ handleClose, addData }) {
                 value={data.type.val}
                 onChange={handleChange}
             />
-            <Picker date={data.birthdayPet.val} onChange={handleChangeDate}/>
+            <Picker date={data.birthdayPet.val} onChange={handleChangeDate} />
             <TextField
                 style={{ width: '100%' }}
                 error={data.ownerName.error}
@@ -322,8 +418,8 @@ export default function BasicTextFields({ handleClose, addData }) {
                 Cancel
             </Button>
             <Button type='submit'>
-                Add
-          </Button>
+                {isEdit === 0 ? 'Add' : 'Update'}
+            </Button>
         </form>
     );
 }

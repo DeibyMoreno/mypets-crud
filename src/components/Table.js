@@ -18,8 +18,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BasicTable({ data, deleteData }) {
+export default function BasicTable({ data, handleClickOpenConfirm, editData }) {
   const classes = useStyles();
+  useEffect(() => {
+    console.log(data);
+  });
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -38,7 +41,7 @@ export default function BasicTable({ data, deleteData }) {
         </TableHead>
         <TableBody>
           {data.map((row) => (
-            <TableRow key={row.id.val}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.namePet.val}
               </TableCell>
@@ -50,10 +53,10 @@ export default function BasicTable({ data, deleteData }) {
               <TableCell align="right">{row.address.val}</TableCell>
               <TableCell align="right">{row.email.val}</TableCell>
               <TableCell align="right">
-                <IconButton aria-label="delete" className={classes.margin}>
+                <IconButton aria-label="delete" onClick={()=>editData(row)} className={classes.margin}>
                   <EditIcon fontSize="small" />
                 </IconButton>
-                <IconButton aria-label="delete" onClick={()=>deleteData(row.id.val)} className={classes.margin}>
+                <IconButton aria-label="delete" onClick={()=>handleClickOpenConfirm(row.id)} className={classes.margin}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>

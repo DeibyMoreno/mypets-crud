@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useEffect, useState, forwardRef} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,24 +9,13 @@ import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import Form from "./Form";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide({addData}) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+export default function AlertDialogSlide({addData, dataEdit, handleClose, open, updateData}) {
   return (
     <div>
-      <Button color="inherit" onClick={handleClickOpen}>Add</Button>
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -40,7 +29,7 @@ export default function AlertDialogSlide({addData}) {
           <DialogContentText id="alert-dialog-slide-description">
             In this section you can add the patient's data, to give you the best care.
           </DialogContentText>
-            <Form handleClose={handleClose} addData={addData} />
+            <Form handleClose={handleClose} addData={addData} updateData={updateData} dataEdit={dataEdit}/>
         </DialogContent>
         <DialogActions>
         </DialogActions>

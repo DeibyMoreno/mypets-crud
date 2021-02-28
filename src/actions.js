@@ -8,6 +8,7 @@ export const getCollection = async(collection)=>{
     const result = {statusResponse : false, data: [], error : null};
     try {
         const data = await db.collection(collection).get();
+        data.docs.map(doc => console.log(doc));
         const arrayData = data.docs.map(doc => ({id : doc.id, ...doc.data()}));
         result.statusResponse = true;
         result.data = arrayData;
@@ -18,15 +19,14 @@ export const getCollection = async(collection)=>{
 }
 
 export const addDocument = async(collection, data)=>{
-    const result = {statusResponse : false, error : null};
+    const result = {statusResponse : false, data: [], error : null};
     try {
-        const r = await db.collection(collection).add(data);
-        console.log(r);
+        const response = await db.collection(collection).add(data);
         result.statusResponse = true;
+        result.data = {id : response.id};
     } catch (error) {
         result.error = error;
     }
-
     return result;
 }
 
@@ -34,6 +34,17 @@ export const deleteDocument = async (collection, id)=>{
     const result = {statusResponse : false, error : null};
     try {
         await db.collection(collection).doc(id).delete(id);
+        result.statusResponse = true;
+    } catch (error) {
+        result.error = error;
+    }
+    return result;
+}
+
+export const updateDocument = async (collection, id, data)=>{
+    const result = {statusResponse : false, error : null};
+    try {
+        await db.collection(collection).doc(id).update(data);
         result.statusResponse = true;
     } catch (error) {
         result.error = error;

@@ -66,14 +66,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar({addData}) {
+export default function SearchAppBar({handleClickOpen}) {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <AppBar position="static" style={{background:'#24292e'}}>
-        <Toolbar style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-            <div className={classes.search}>
+        <Toolbar style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
+            {/*<div className={classes.search}>
                 <div className={classes.searchIcon}>
                 <SearchIcon />
                 </div>
@@ -85,8 +84,8 @@ export default function SearchAppBar({addData}) {
                 }}
                 inputProps={{ 'aria-label': 'search' }}
                 />
-            </div>
-            <Modal addData={addData}/>
+              </div>*/}
+            <Button color="inherit" onClick={handleClickOpen}>Add</Button>
             {/*<MenuAction />*/}
         </Toolbar>
       </AppBar>
